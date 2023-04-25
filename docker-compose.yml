@@ -10,9 +10,19 @@ services:
     env_file:
       - .env
     volumes:
-      - "./autogpt:/app"
-      - ".env:/app/.env"
+      - ./autogpt:/app
+      - .env:/app/.env
+      - ./data/workspace:/home/appuser/auto_gpt_workspace:rw
     profiles: ["exclude-from-up"]
 
   redis:
-    image: "redis/redis-stack-server:latest"
+    #
+    # image: "redis/redis-stack-server:latest"
+    # Stack lets use the fancy ui to see the data in redis
+    image: "redis/redis-stack:latest"
+    volumes:
+      - ./data/redis:/data
+    ports:
+      - 6379:6379
+      - 8001:8001
+
